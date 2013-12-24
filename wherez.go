@@ -15,9 +15,9 @@ import (
 // Internet (UPnP is not supported yet). Wherez will try aggressively to find
 // at least minPeers as fast as possible. The passphrase will be used to
 // authenticate remote peers.
-func FindAuthenticatedPeers(port, minPeers int, passphrase []byte) chan Peer {
+func FindAuthenticatedPeers(port, appPort, minPeers int, passphrase []byte) chan Peer {
 	c := make(chan Peer)
-	go findAuthenticatedPeers(port, minPeers, passphrase, c)
+	go findAuthenticatedPeers(port, appPort, minPeers, passphrase, c)
 	return c
 }
 
@@ -29,14 +29,14 @@ func (p Peer) String() string {
 	return fmt.Sprintf("%v", p.Addr)
 }
 
-func findAuthenticatedPeers(port, minPeers int, passphrase []byte, c chan Peer) {
+func findAuthenticatedPeers(port, appPort, minPeers int, passphrase []byte, c chan Peer) {
 	ih, err := infoHash(passphrase)
 	if err != nil {
 		log.Println("Could not calculate infohash for the provided passphrase", err)
 		close(c)
 		return
 	}
-
+	go listenAuth(port, appPort, passphrase)
 	// Connect to the DHT network.
 	d, err := dht.NewDHTNode(port, minPeers, true)
 	if err != nil {
@@ -45,8 +45,10 @@ func findAuthenticatedPeers(port, minPeers int, passphrase []byte, c chan Peer) 
 		return
 	}
 	go d.DoDHT()
+	// XXX
+	d.AddNode("213.239.195.138:40000")
 	// Sends authenticated peers to channel c.
-	go obtainPeers(d, c)
+	go obtainPeers(d, passphrase, c)
 
 	for {
 		// Keeps requesting for the infohash. This is a no-op if the

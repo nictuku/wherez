@@ -16,8 +16,9 @@ func TestInfoHash(t *testing.T) {
 }
 
 func TestFindPeers(t *testing.T) {
-	c := FindAuthenticatedPeers(60000, 1, []byte("abacate"))
+	c := FindAuthenticatedPeers(60000, 31337, 1, []byte("abacate"))
 	for p := range c {
 		t.Logf("Found %v", p.String())
+		return
 	}
 }

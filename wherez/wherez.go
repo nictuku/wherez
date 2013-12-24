@@ -3,17 +3,25 @@ package main
 import (
 	"flag"
 	"log"
+	"strconv"
 
 	"github.com/nictuku/wherez"
 )
 
+// port for the wherez protocol (UDP+TCP).
+const port = 40000
+
 func main() {
 	flag.Parse()
-	if len(flag.Args()) != 1 {
-		log.Fatalln("Usage: wherez [options] <passphrase>")
+	if len(flag.Args()) != 2 {
+		log.Fatalln("Usage: wherez [options] <app port> <passphrase>")
 	}
-	passphrase := flag.Arg(0)
-	c := wherez.FindAuthenticatedPeers(60000, 1, []byte(passphrase))
+	appPort, err := strconv.Atoi(flag.Arg(0))
+	if err != nil {
+		log.Fatalf("Invalid port parameter: %v", err)
+	}
+	passphrase := flag.Arg(1)
+	c := wherez.FindAuthenticatedPeers(port, appPort, 1, []byte(passphrase))
 	for p := range c {
 		log.Printf("Found %v", p.String())
 	}
