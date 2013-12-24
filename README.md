@@ -1,11 +1,12 @@
 Wherez
 ======
-Wherez (Where Zee) lets you register and discover sibling servers in the
-network based on a shared passphrase. It uses the Mainline DHT network
-to advertise its own existence and to look for other nodes that are
-running with the same passphrase.
+Wherez (Where Zee) is a p2p program and library that lets you register
+and discover sibling servers in the network based on a shared 
+passphrase. It uses the Mainline DHT network to advertise its own 
+existence and to look for other nodes that are running with the same 
+passphrase.
 
-Wherez authenticates sibling peers using an HMAC-based mechanism.
+It authenticates sibling peers using an HMAC-based mechanism.
 
 Example applications:
 
