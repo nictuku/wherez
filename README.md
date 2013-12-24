@@ -17,14 +17,16 @@ server, etc.
 
 This software is in early stages of development.
 
-Example usage:
+This repository contains a library and a command-line tool.
 
-$ cd wherez ; go build
-$ ./wherez 8080 "wherezexample"
-14.15.87.13:3111
-77.66.77.22:3211
-16.97.12.12:3312
+Example CLI usage:
+
+    $ cd wherez ; go build
+    $ ./wherez 8080 "wherezexample"
+    14.15.87.13:3111
+    77.66.77.22:3211
+    16.97.12.12:3312
 
 8080 is your application's port to be advertised to other wherez nodes.
 
-The IP:port pairs listed are peers provided by Wherez nodes that have been contacted and authenticated.
+The IP:port pairs that appear are those peers provided by Wherez nodes that have been contacted and authenticated.
