@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"strconv"
 
@@ -23,6 +24,7 @@ func main() {
 	passphrase := flag.Arg(1)
 	c := wherez.FindAuthenticatedPeers(port, appPort, 1, []byte(passphrase))
 	for p := range c {
-		log.Printf("Found %v", p.String())
+		// Peer found!
+		fmt.Println(p.String())
 	}
 }

@@ -1,3 +1,17 @@
+// wherez (Where Zee) lets you register and discover sibling nodes in the network
+// based on a shared passphrase. It uses the Mainline DHT network to advertise
+// its own existence and to look for other nodes that are running with the same
+// passphrase.
+//
+// Wherez authenticates sibling peers using an HMAC-based mechanism.
+//
+// Example applications:
+// - find the location of your company's doozerd, Chubby or DNS servers.
+// - robust way for stolen notebooks to "phone home".
+// - register and locate servers in a corporate network based on function, by
+// using different passphrases for the DNS server, LDAP server, etc.
+//
+// This software is in early stages of development.
 package wherez
 
 import (
