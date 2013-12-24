@@ -56,7 +56,6 @@ func auth(peer string, passphrase []byte, c chan Peer) {
 	// The MAC should be generated using the shared passphrase.
 	conn, err := net.Dial("tcp", peer)
 	if err != nil {
-		log.Printf("conn to peer %v, error %v", peer, err)
 		return
 	}
 	defer conn.Close()
@@ -80,7 +79,7 @@ func auth(peer string, passphrase []byte, c chan Peer) {
 	// The first two bytes are the port number.
 	appPort := binary.LittleEndian.Uint16(buf)
 	if !checkMAC(buf[0:20], buf[20:20+sha256.Size], passphrase) {
-		log.Printf("Invalid message MAC. Ignoring peer.")
+		// Invalid message MAC. Ignoring peer.
 		return
 	}
 	host, _, err := net.SplitHostPort(peer)

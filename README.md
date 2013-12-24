@@ -20,7 +20,7 @@ This software is in early stages of development.
 Example usage:
 
 $ cd wherez ; go build
-$ ./wherez 8080 "dude wherez my car?"
+$ ./wherez 8080 "wherezexample"
 14.15.87.13:3111
 77.66.77.22:3211
 16.97.12.12:3312
