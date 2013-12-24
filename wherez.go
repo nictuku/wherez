@@ -10,11 +10,14 @@ import (
 	"github.com/nictuku/dht"
 )
 
-// FindAuthenticatedPeers. Wherez will listen on the specified port for both
-// TCP and UDP protocols.  The ports must be accessible from the public
-// Internet (UPnP is not supported yet). Wherez will try aggressively to find
-// at least minPeers as fast as possible. The passphrase will be used to
-// authenticate remote peers.
+// FindAuthenticatedPeers uses the BitTorrent DHT network to find sibling
+// Wherez nodes that are using the same passphrase. Wherez will listen on the
+// specified port for both TCP and UDP protocols. The port must be accessible
+// from the public Internet (UPnP is not supported yet). Wherez will try
+// aggressively to find at least minPeers as fast as possible. The passphrase
+// will be used to authenticate remote peers. This wherez node will keep
+// running indefinitely and continuously advertising that our main application
+// is on port appPort of the current host.
 func FindAuthenticatedPeers(port, appPort, minPeers int, passphrase []byte) chan Peer {
 	c := make(chan Peer)
 	go findAuthenticatedPeers(port, appPort, minPeers, passphrase, c)

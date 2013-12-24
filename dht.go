@@ -38,7 +38,8 @@ func obtainPeers(d *dht.DHT, passphrase []byte, c chan Peer) {
 	for r := range d.PeersRequestResults {
 		for _, peers := range r {
 			for _, x := range peers {
-				log.Printf("Address found %v", dht.DecodePeerAddress(x))
+				// A DHT peer for our infohash was found. It
+				// needs to be authenticated.
 				auth(dht.DecodePeerAddress(x), passphrase, c)
 			}
 		}
