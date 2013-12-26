@@ -27,11 +27,16 @@ import (
 // FindAuthenticatedPeers uses the BitTorrent DHT network to find sibling
 // Wherez nodes that are using the same passphrase. Wherez will listen on the
 // specified port for both TCP and UDP protocols. The port must be accessible
-// from the public Internet (UPnP is not supported yet). Wherez will try
-// aggressively to find at least minPeers as fast as possible. The passphrase
-// will be used to authenticate remote peers. This wherez node will keep
-// running indefinitely and continuously advertising that our main application
-// is on port appPort of the current host.
+// from the public Internet (UPnP is not supported yet).
+//
+// Wherez will try aggressively to find at least minPeers as fast as possible.
+//
+// The passphrase will be used to authenticate remote peers. This wherez node
+// will keep running indefinitely as a DHT node.
+//
+// If appPort is a positive number, wherez will advertise that our main application
+// is on port appPort of the current host. If it's negative, it doesn't
+// announce itself as a peer.
 func FindAuthenticatedPeers(port, appPort, minPeers int, passphrase []byte) chan Peer {
 	c := make(chan Peer)
 	go findAuthenticatedPeers(port, appPort, minPeers, passphrase, c)
@@ -54,16 +59,18 @@ func findAuthenticatedPeers(port, appPort, minPeers int, passphrase []byte, c ch
 		return
 	}
 	go listenAuth(port, appPort, passphrase)
+	announce := false
+	if appPort > 0 {
+		announce = true
+	}
 	// Connect to the DHT network.
-	d, err := dht.NewDHTNode(port, minPeers, true)
+	d, err := dht.NewDHTNode(port, minPeers, announce)
 	if err != nil {
 		log.Println("Could not create the DHT node:", err)
 		close(c)
 		return
 	}
 	go d.DoDHT()
-	// XXX
-	d.AddNode("213.239.195.138:40000")
 	// Sends authenticated peers to channel c.
 	go obtainPeers(d, passphrase, c)
 
