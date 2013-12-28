@@ -31,3 +31,5 @@ Example CLI usage:
 8080 is your application's port to be advertised to other wherez nodes.
 
 The IP:port pairs that appear are those peers provided by Wherez nodes that have been contacted and authenticated.
+
+Recently started wherez nodes may take several minutes to find other peers and to be found by them.
