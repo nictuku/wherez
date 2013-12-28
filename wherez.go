@@ -86,6 +86,18 @@ func findAuthenticatedPeers(port, appPort, minPeers int, passphrase []byte, c ch
 	}
 }
 
+func obtainPeers(d *dht.DHT, passphrase []byte, c chan Peer) {
+	for r := range d.PeersRequestResults {
+		for _, peers := range r {
+			for _, x := range peers {
+				// A DHT peer for our infohash was found. It
+				// needs to be authenticated.
+				checkPeer(dht.DecodePeerAddress(x), passphrase, c)
+			}
+		}
+	}
+}
+
 // infohash used for this wherez lookup. This should be somewhat hard to guess
 // but it's not exactly a secret.
 func infoHash(passphrase []byte) (dht.InfoHash, error) {

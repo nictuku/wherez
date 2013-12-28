@@ -10,8 +10,6 @@ import (
 	"io"
 	"log"
 	"net"
-
-	"github.com/nictuku/dht"
 )
 
 var (
@@ -35,18 +33,6 @@ func init() {
 		log.Fatalln("could not generate a dedupe id:", err)
 	}
 	dedupe = dedupe[0:dedupeLen]
-}
-
-func obtainPeers(d *dht.DHT, passphrase []byte, c chan Peer) {
-	for r := range d.PeersRequestResults {
-		for _, peers := range r {
-			for _, x := range peers {
-				// A DHT peer for our infohash was found. It
-				// needs to be authenticated.
-				checkPeer(dht.DecodePeerAddress(x), passphrase, c)
-			}
-		}
-	}
 }
 
 // Connect on that peer's TCP port and authenticate. Alice starts a
