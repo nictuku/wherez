@@ -24,9 +24,9 @@ Example CLI usage:
 
     $ cd wherez ; go build
     $ ./wherez 8080 "wherezexample"
-    14.15.87.13:3111
-    77.66.77.22:3211
-    16.97.12.12:3312
+    peer found: 14.15.87.13:3111
+    peer found: 77.66.77.22:3211
+    peer found: 16.97.12.12:3312
 
 8080 is your application's port to be advertised to other wherez nodes.
 

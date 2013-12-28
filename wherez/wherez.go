@@ -25,6 +25,6 @@ func main() {
 	c := wherez.FindAuthenticatedPeers(port, appPort, 1, []byte(passphrase))
 	for p := range c {
 		// Peer found!
-		fmt.Println(p.String())
+		fmt.Println("peer found:", p.String())
 	}
 }
