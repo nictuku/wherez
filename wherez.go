@@ -52,24 +52,27 @@ func (p Peer) String() string {
 }
 
 func findAuthenticatedPeers(port, appPort, minPeers int, passphrase []byte, c chan Peer) {
+	defer close(c)
 	ih, err := infoHash(passphrase)
 	if err != nil {
 		log.Println("Could not calculate infohash for the provided passphrase", err)
-		close(c)
 		return
 	}
-	go listenAuth(port, appPort, passphrase)
 	announce := false
 	if appPort > 0 {
 		announce = true
+		if _, err = listenAuth(port, appPort, passphrase); err != nil {
+			log.Println("Could not open listener:", err)
+			return
+		}
 	}
 	// Connect to the DHT network.
 	d, err := dht.NewDHTNode(port, minPeers, announce)
 	if err != nil {
 		log.Println("Could not create the DHT node:", err)
-		close(c)
 		return
 	}
+	d.AddNode("213.239.195.138:40000")
 	go d.DoDHT()
 	// Sends authenticated peers to channel c.
 	go obtainPeers(d, passphrase, c)
