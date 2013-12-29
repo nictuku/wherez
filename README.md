@@ -1,5 +1,8 @@
 Wherez
 ======
+
+![Presentation](https://lh4.googleusercontent.com/-ugw0s4ql6uE/UsCLlgoSdSI/AAAAAAABFw0/ct0yB6ufE_c/w384-h216-no/output_4hMaVU.gif)
+
 Wherez (Where Zee) is a p2p program and library that lets you register
 and discover sibling servers in the network based on a shared 
 passphrase. It uses the Mainline DHT network to advertise its own 
@@ -33,3 +36,8 @@ Example CLI usage:
 The IP:port pairs that appear are those peers provided by Wherez nodes that have been contacted and authenticated.
 
 Recently started wherez nodes may take several minutes to find other peers and to be found by them.
+
+How does it work?
+------------------
+
+Presentation: http://goo.gl/vn7Pvh
