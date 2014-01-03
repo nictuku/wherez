@@ -102,7 +102,9 @@ func obtainPeers(d *dht.DHT, passphrase []byte, c chan Peer) {
 // but it's not exactly a secret.
 func infoHash(passphrase []byte) (dht.InfoHash, error) {
 	// SHA256 of the passphrase.
-	h := sha256.Sum256(passphrase)
+	h256 := sha256.New()
+	h256.Write(passphrase)
+	h := h256.Sum(nil)
 
 	// Assuming perfect rainbow databases, it's better if the infohash does not
 	// give out too much about the passphrase. Take half of this hash, then
@@ -110,6 +112,8 @@ func infoHash(passphrase []byte) (dht.InfoHash, error) {
 	h2 := h[0 : sha256.Size/2]
 
 	// Mainline DHT uses sha1.
-	h3 := sha1.Sum(h2)
+	h160 := sha1.New()
+	h160.Write(h2)
+	h3 := h160.Sum(nil)
 	return dht.InfoHash(h3[:]), nil
 }
